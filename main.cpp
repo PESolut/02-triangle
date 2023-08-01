@@ -2,6 +2,24 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+// Vertex shader source code
+// The vertex shader is a program on the GPU that processes each vertex of a primitive (such as a line, point, or triangle) as it is passed to the GPU
+// in our instance, we are passing a triangle to the GPU, so the vertex shader will process each vertex of the triangle
+// its input is a single vertex with a size of 3, and its output is a single vertex with a size of 4
+// we cast the input vertex to a vec4, and then set the w component to 1.0f
+// our fourth value is not a reprensation of space, but for something called perspective division.
+
+// in reality, the vertex shader is a function that takes as input a single vertex and outputs a single vertex
+// the input vertex data is not in normalized device coordinates, but in local space coordinates.
+// those local space coordinates are trasformed into cordinates in the visible region
+
+const char *vertexShaderSource = "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "void main()\n"
+    "{\n"
+    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "}\0";
+
 // Callback function for window resizing
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
@@ -73,6 +91,27 @@ int main() {
      // now to actually draw the triangle, we need to tell OpenGL how to process the vertex data we have
      // we do this by creating a vertex shader, then finally; a fragment shader.
 
+     // create a vertex shader
+     unsigned int vertexShader;
+     vertexShader = glCreateShader(GL_VERTEX_SHADER); // Create a shader object, returns an unsigned int representing the shader object. 
+        // The function takes in the type of shader we want to create, which in our case is a vertex shader
+     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); // Attach the shader source code to the shader object
+        // first argument is the shader object we want to compile, second argument is string count, third argument is the sorce code.
+        // the fourth argument is the length of the source code, but we can set it to NULL and let OpenGL figure it out on its own
+     glCompileShader(vertexShader); 
+     
+     int  success;
+     char infoLog[512];
+     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+     if(!success){
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+    // fragment shader
+
+
+
 
     // Render loop
     while(!glfwWindowShouldClose(window)){
@@ -89,6 +128,8 @@ int main() {
         float bValue = 153.0f / 255.0f;
         glClearColor(rValue, gValue, bValue, 1.0f); // Set the color of the screen by changing state of OpenGL ( state setting )
         glClear(GL_COLOR_BUFFER_BIT); // Clear the screen with the color we set in glClearColor ( state using )
+
+
 
 
         // Swap buffers and poll events
