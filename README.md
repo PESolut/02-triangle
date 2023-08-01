@@ -19,6 +19,8 @@ After installing GLFW and including GLAD in your project, you can build the prog
 clang++ -std=c++17 -fcolor-diagnostics -Wall -g -I/path/to/dependencies/include -L/path/to/libaries/ /workspace/directory/containg/sourcecode/main.cpp /workspace/directory/containing/gladSourceCode//glad.c -o /work/space/directory/triangle -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation -Wno-deprecated -lglfw3
 ```
 
+substitute the corresponding location for the directories. In the root directory of my project, I created a folder called dependencies. Within that folder, I created the folders include and libs. I put the include files and library files in those folders.
+
 #### Execute code
 After running the command, assuming no errors; Simply run the compiled executable to see the OpenGL window displaying a colored triangle.
 
