@@ -1,5 +1,5 @@
 # OpenGL Triangle Example
-This is a simple C++ program that demonstrates how to create an OpenGL window, set up a triangle, and render it on the screen using modern OpenGL.
+In this basic C++ program, a triangle is built up in an OpenGL window and rendered on the screen using OpenGL.
 
 ## Dependencies
 
@@ -16,7 +16,7 @@ After installing GLFW and including GLAD in your project, you can build the prog
 #### Copy code
 
 ```bash
-g++ -o main main.cpp -lglfw -ldl
+clang++ -std=c++17 -fcolor-diagnostics -Wall -g -I/path/to/dependencies/include -L/path/to/libaries/ /workspace/directory/containg/sourcecode/main.cpp /workspace/directory/containing/gladSourceCode//glad.c -o /work/space/directory/triangle -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation -Wno-deprecated -lglfw3
 ```
 
 #### Execute code
