@@ -50,6 +50,30 @@ int main() {
     // Set the callback function for window resizing
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  
 
+    // Preparing for render loop 
+
+    // Create vertices for triangle
+    float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+     };
+
+     unsigned int VBO; // Vertex Buffer Object
+     glGenBuffers(1, &VBO);  // Generate 1 buffer object and store it in VBO
+     glBindBuffer(GL_ARRAY_BUFFER, VBO);  // Bind the buffer object to the GL_ARRAY_BUFFER target
+     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // Copy the vertices data into the buffer's memory
+     // first argument is the type of buffer we want to copy data into; which in our instance is the vbo currently bound to the GL_ARRAY_BUFFER target
+     // second argument is the size of the data in bytes
+     // third argument is the actual data we want to send
+     // fourh argument is how we want the graphics card to manage the given data
+     // for our case, we want the graphics card to manage the data as a static draw, which means the data will most likely not change at all or very rarely
+
+     // At this point, we stored the vertex data within memory on the GPU as a vertex buffer object named VBO
+     // now to actually draw the triangle, we need to tell OpenGL how to process the vertex data we have
+     // we do this by creating a vertex shader, then finally; a fragment shader.
+
+
     // Render loop
     while(!glfwWindowShouldClose(window)){
         // Process input every iteration of the loop
