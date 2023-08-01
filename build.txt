@@ -1,0 +1,1 @@
+gcc -o triangle main.cpp -I/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/include -L/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/lib -lglfw3 -framework OpenGL
