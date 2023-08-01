@@ -5,20 +5,30 @@
             "label": "C/C++: clang++ build active file",
             "command": "/usr/bin/clang++",
             "args": [
+                "-std=c++17",
                 "-fcolor-diagnostics",
-                "-fansi-escape-codes",
+                "-Wall",
                 "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
                 "-I/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/include",
-                "-I/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/include/KHR",
-                "-I/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/include/glad",
-                "-I/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/include/GLFW",
+                "-I/Users/pe/Documents/Coding-Stuff/opengl/triangle/include/",
                 "-L/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/lib",
-                "-lglfw3",
+                "/Users/pe/Documents/Coding-Stuff/opengl/triangle/main.cpp",
+                "/Users/pe/Documents/Coding-Stuff/opengl/triangle/dependencies/lib/libglfw.3.dylib",  
+                "/Users/pe/Documents/Coding-Stuff/opengl/triangle/glad.c", // Add glad.c to the compilation
+                "-o",
+                "/Users/pe/Documents/Coding-Stuff/opengl/triangle/triangle",
+                "-framework", // Use lowercase 'framework' instead of '-Framework'
+                "OpenGL",
                 "-framework",
-                "OpenGL"
+                "Cocoa",
+                "-framework",
+                "IOKit",
+                "-framework",
+                "CoreVideo",
+                "-framework",
+                "CoreFoundation",
+                "-Wno-deprecated",
+                "-lglfw3"
             ],
             "options": {
                 "cwd": "${fileDirname}"
