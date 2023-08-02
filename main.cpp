@@ -69,6 +69,8 @@ int main() {
             return -1;
     }
 
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // wireframe mode
+
     // create a vertex shader
      unsigned int vertexShader;
      vertexShader = glCreateShader(GL_VERTEX_SHADER); // Create a shader object, returns an unsigned int representing the shader object. 
@@ -134,23 +136,34 @@ int main() {
 
     // Create vertices for triangle
     float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
+        0.5f, 0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        -0.5f,  -0.5f, 0.0f,
+        -0.5f, 0.5f, 0.0f
+     };
+     unsigned int indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3 // second triangle
      };
 
-     unsigned int VBO, VAO; // Vertex Buffer Object and Vertex Array Object
+     unsigned int VBO, VAO, EBO; // Vertex Buffer Object and Vertex Array Object
+
+     // init code
      glGenVertexArrays(1, &VAO); // Generate 1 vertex array object and store it in VAO
      glGenBuffers(1, &VBO);  // Generate 1 buffer object and store it in VBO
+     glGenBuffers(1, &EBO);  // Generate 1 buffer object and store it in EBO
+     // 1. bind the vertex array object
      glBindVertexArray(VAO); // Bind the vertex array object to the GL_ARRAY_BUFFER target
-
-
-
+     // 2. copy our vertices array in a buffer for OpenGL to use
      glBindBuffer(GL_ARRAY_BUFFER, VBO);  // Bind the buffer object to the GL_ARRAY_BUFFER target
      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // Copy the vertices data into the buffer's memory
+     // 3. copy our index array in a element buffer for OpenGL to use
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); // Bind the buffer object to the GL_ELEMENT_ARRAY_BUFFER target
+     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // Copy the indices data into the buffer's memory
+    // 4. then set the vertex attributes pointers
      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
      glEnableVertexAttribArray(0);
-     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //  glBindBuffer(GL_ARRAY_BUFFER, 0);
      // first argument is the type of buffer we want to copy data into; which in our instance is the vbo currently bound to the GL_ARRAY_BUFFER target
      // second argument is the size of the data in bytes
      // third argument is the actual data we want to send
@@ -197,9 +210,6 @@ int main() {
 
 
 
-
-
-
     // Render loop
     while(!glfwWindowShouldClose(window)){
         // Process input every iteration of the loop
@@ -219,9 +229,10 @@ int main() {
         // Draw our first triangle
         glUseProgram(shaderProgram); // use the shader program we created earlier
         glBindVertexArray(VAO); // bind the VAO we created earlier
-        glDrawArrays(GL_TRIANGLES, 0, 3); // draw the triangle using the data from the VAO. the first argument is the mode we want to draw in. the second argument is the starting index of the vertex array we'd like to draw. the third argument is the number of vertices we want to draw
-        
-
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // draw the triangle
+        // first argument is the mode we want to draw in
+        // second argument is the number of vertices we have
+        // third argument is the type of the indices
 
 
         // Swap buffers and poll events
